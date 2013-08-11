@@ -1,11 +1,7 @@
-/**
- * A simple expression evaluator.
- */
+// A simple expression evaluator.
 ;(function(){
-  /**
-   * Tokens object.
-   * Key is a unique identifier. Value is matching regex, with 0th capture group as the token value.
-   */
+  // Map all tokens.
+  // Key is a unique identifier. Value is matching regex, with 0th capture group as the token value.
   var tokens = {
     'NUMBER':/([0-9\.]+)/,
     'OPENPARENS':/(\()/,
@@ -14,13 +10,12 @@
     'MULTIPLY':/(\*)/,
     'DIVIDE':/(\/)/,
     'ADD':/(\+)/,
-    'SUBTRACT':/(\-)/,
+    'SUBTRACT':/(\-)/
   };
-  /**
-   * Lexical analyser.
-   * Takes string of valid expressions; does not check for malformation.
-   * Outputs array of tokens in order.
-   */
+
+  // Lexical analyser.
+  // Takes string of valid expressions; does not check for malformation.
+  // Outputs array of tokens in order.
   var lexer = function(string){
     var output = []
       , working = string;
@@ -51,18 +46,12 @@
     return output;
   };
 
-  /**
-   * Traverses the binary tree in reverse-level-order.
-   * Takes a binary node tree of form {left: node || NUM_TOKEN , right: node || NUM_TOKEN , op: OP_TOKEN}
-   * such that leaves are of form {type: TOKEN_NAME, value: string}
-   * NOTE: this evaluation is done in-place, and modifies the tree.
-   */
+
+  // Traverses the binary tree in reverse-level-order.
+  // NOTE: this evaluation is done in-place, and modifies the tree.
   var traverse = function(target){
-    /**
-     * Define operations.
-     * Takes arguments operand1, operand2 of type number || string
-     * and argument operator of type OP_TOKEN_NAME || string.
-     */
+
+    // Define operations.
     var operate = function(operand1, operand2, operator){
       operand1 = Number(operand1), operand2 = Number(operand2);
       switch(operator){
@@ -119,13 +108,10 @@
     return target.result;
   };
 
-  // Parsers.
   var parsers = {
-    /**
-     * Recursively process tokens.
-     * Takes array of tokens.
-     * Returns binary syntax tree.
-     */
+    // Recursively process tokens.
+    // Takes array of tokens.
+    // Returns binary syntax tree.
     parse: function(tokens){
       tokens = parsers.additive(tokens);
       tokens = parsers.multiplicative(tokens);
@@ -141,11 +127,10 @@
     additive: function(tokens){
       return parsers.binary_operation(tokens, ['ADD', 'SUBTRACT']);
     },
-    /**
-     * Recursively parse binary operations of certain token operator names.
-     * Takes an array of tokens.
-     * Returns nodes of particular operator.
-     */
+
+    // Recursively parse binary operations of certain token operator names.
+    // Takes an array of tokens.
+    // Returns nodes of particular operator.
     binary_operation: function(tokens, types){
       var node = {
         left: null,
@@ -177,21 +162,19 @@
       }
       return node;
     },
-    /**
-     * These functions do not need to be recalled recursively; they require only one pass.
-     * Takes array of tokens.
-     * Returns tokens after preprocess pass.
-     */
+
+    // These functions do not need to be recalled recursively; they require only one pass.
+    // Takes array of tokens.
+    // Returns tokens after preprocess pass.
     preprocess: function(tokens){
       tokens = parsers.parens(tokens);
       tokens = parsers.unary_neg(tokens);
       return tokens;
     },
-    /**
-     * Parse parentheses.
-     * Takes array of tokens.
-     * Returns tokens with parenthetical nesting.
-     */
+
+    // Parse parentheses.
+    // Takes array of tokens.
+    // Returns tokens with parenthetical nesting.
     parens: function(tokens){
       var new_tokens = null;
 
@@ -235,11 +218,10 @@
       }
       return new_tokens;
     },
-    /**
-     * Parse unary negation.
-     * Takes array of tokens with parenthetical nesting.
-     * Returns tokens with unary negation expanded to binary multiplication with precedence.
-     */
+
+    // Parse unary negation.
+    // Takes array of tokens with parenthetical nesting.
+    // Returns tokens with unary negation expanded to binary multiplication with precedence.
     unary_neg: function(tokens){
       for(var i = 0; i < tokens.length; i++){
         if(tokens[i].type == 'SUBTRACT'){
@@ -268,20 +250,16 @@
     }
   };
 
-  // Exports.
+  // Evaluate the expression.
   var evaluate = function(expression, verbose, decimal_places){
-    // Default arguments.
-    verbose = verbose || false;
+    verbose = verbose || false; // Default arguments.
     decimal_places = decimal_places || 5;
 
-    // Strip whitespace.
-    expression = expression.replace(/\s/g, '');
+    expression = expression.replace(/\s/g, ''); // Strip whitespace.
 
-    // Lexical analysis.
-    var lexed = lexer(expression);
+    var lexed = lexer(expression); // Lexical analysis.
 
-    // Parsing.
-    var preprocessed = parsers.preprocess(lexed);
+    var preprocessed = parsers.preprocess(lexed); // Parsing.
     var parsed = parsers.parse(preprocessed);
 
     // Verbose reporting.
@@ -319,9 +297,8 @@
     }
     answer = answer.substr(0, i + 1);
 
-    // Cast answer back into number.
-    return Number(answer);
+    return Number(answer); // Cast answer back into number.
   };
 
-  module.exports = evaluate;
+  module.exports = evaluate; // Expose method.
 })();
