@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>source.js.md</title>
+  <title>simple-calculator.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -15,7 +15,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>source.js.md</h1>
+                  <h1>simple-calculator.js</h1>
               </div>
           </li>
         
@@ -135,11 +135,11 @@ NOTE: this evaluation is done in-place, and modifies the tree.</p>
             <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> operate = <span class="keyword">function</span>(operand1, operand2, operator){
       operand1 = Number(operand1), operand2 = Number(operand2);
       <span class="keyword">switch</span>(operator){
-        <span class="keyword">case</span> <span class="string">'SUBTRACT'</span>: <span class="keyword">case</span> <span class="string">'-'</span>: operand2 = -<span class="number">1</span><span class="comment">// operand2;</span>
+        <span class="keyword">case</span> <span class="string">'SUBTRACT'</span>: <span class="keyword">case</span> <span class="string">'-'</span>: operand2 = -<span class="number">1</span> * operand2;
         <span class="keyword">case</span> <span class="string">'ADD'</span>: <span class="keyword">case</span> <span class="string">'+'</span>: <span class="keyword">return</span> operand1 + operand2;
 
         <span class="keyword">case</span> <span class="string">'DIVIDE'</span>: <span class="keyword">case</span> <span class="string">'/'</span>: operand2 = <span class="number">1</span> / operand2;
-        <span class="keyword">case</span> <span class="string">'MULTIPLY'</span>: <span class="keyword">case</span> <span class="string">'*'</span>: <span class="keyword">return</span> operand1<span class="comment">// operand2;</span>
+        <span class="keyword">case</span> <span class="string">'MULTIPLY'</span>: <span class="keyword">case</span> <span class="string">'*'</span>: <span class="keyword">return</span> operand1 * operand2;
 
         <span class="keyword">case</span> <span class="string">'EXPONENT'</span>: <span class="keyword">case</span> <span class="string">'^'</span>: <span class="keyword">return</span> Math.pow(operand1, operand2);
       }
